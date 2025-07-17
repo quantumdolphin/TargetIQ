@@ -58,7 +58,7 @@ gpt-target-lookup-agent/
 1. **Clone this repo** using GitHub Desktop or Git:
 
    ```bash
-   git clone https://github.com/quantumdolphin/gpt-target-lookup-agent.git
+   git clone https://github.com/quantumdolphin/TargetIQ.git
    ```
 
 2. **Create a new Pipedream workflow**:
