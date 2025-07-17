@@ -1,4 +1,4 @@
-# TODO: Target Lookup GPT - Future Enhancements
+# TODO: TargetIQ GPT - Future Enhancements
 
 ## Features to Add
 - [ ] Add support for inputting protein names (e.g., "KIT kinase") and auto-resolving UniProt IDs
