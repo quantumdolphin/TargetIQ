@@ -103,9 +103,11 @@ Thanks to OpenAI, UniProt, and NCBI teams for building excellent public APIs. Sp
 
 Feel free to fork, open issues, or submit pull requests — for example, adding:
 
-## 🌟 Future improvements :
+## 🛣️ Roadmap 
 
-* Support for ChEMBL, Reactome, or DrugBank
-* Variant annotations from ClinVar
-* Improved summary generation from papers
+- [ ] Name → UniProt ID resolution
+- [ ] ChEMBL structure preview
+- [ ] Add Reactome or GeneCards linkout
+- [ ] Batch search mode
+
 
