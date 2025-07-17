@@ -1,0 +1,43 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "TargetIQ Lookup",
+    "version": "1.0.0",
+    "description": "Lookup a UniProt ID to get the protein name, gene name, synonyms, and related PubMed articles."
+  },
+  "servers": [
+    {
+      "url": "https://eo4mpi0o3unfegz.m.pipedream.net"
+    }
+  ],
+  "paths": {
+    "/": {
+      "post": {
+        "operationId": "target_lookup",
+        "summary": "Lookup a UniProt ID",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "query": {
+                    "type": "string",
+                    "description": "A UniProt accession ID (e.g., P00533)"
+                  }
+                },
+                "required": ["query"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful UniProt lookup"
+          }
+        }
+      }
+    }
+  }
+}

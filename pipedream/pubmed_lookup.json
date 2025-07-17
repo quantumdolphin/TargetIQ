@@ -1,0 +1,34 @@
+import requests
+from urllib.parse import quote
+
+def handler(pd: "pipedream"):
+    # Get gene name and synonyms from previous step
+    gene = pd.steps["uniprot"]["$return_value"]["gene_name"]
+    synonyms = pd.steps["uniprot"]["$return_value"]["synonyms"]
+
+    # Build query string
+    terms = [gene] + synonyms
+    query = " OR ".join([f"{term}[Title/Abstract]" for term in terms])
+    encoded_query = quote(query)
+
+    # Search PubMed using E-utilities
+    esearch_url = f"https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&retmax=5&retmode=json&term={encoded_query}"
+    r = requests.get(esearch_url)
+    pmids = r.json().get("esearchresult", {}).get("idlist", [])
+
+    # Fetch summaries
+    summaries = []
+    if pmids:
+        id_str = ",".join(pmids)
+        esummary_url = f"https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&id={id_str}&retmode=json"
+        r = requests.get(esummary_url)
+        result = r.json().get("result", {})
+        for pmid in pmids:
+            entry = result.get(pmid, {})
+            summaries.append({
+                "title": entry.get("title"),
+                "pubdate": entry.get("pubdate"),
+                "pmid": pmid
+            })
+
+    return {"papers": summaries}

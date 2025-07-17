@@ -1,0 +1,26 @@
+import requests
+
+def handler(pd: "pipedream"):
+    # Get UniProt ID from incoming webhook JSON
+    uniprot_id = pd.steps["trigger"]["event"].get("query", "P00533")  # default fallback for testing
+
+    # Call UniProt API
+    url = f"https://rest.uniprot.org/uniprotkb/{uniprot_id}.json"
+    response = requests.get(url)
+    if response.status_code != 200:
+        return {"error": f"Failed to fetch UniProt ID {uniprot_id}"}
+
+    data = response.json()
+
+    # Extract relevant fields
+    name = data.get("proteinDescription", {}).get("recommendedName", {}).get("fullName", {}).get("value", "")
+    gene = data.get("genes", [{}])[0].get("geneName", {}).get("value", "")
+    synonyms = [syn["value"] for syn in data.get("genes", [{}])[0].get("synonyms", [])]
+
+    # Return for future steps
+    return {
+        "uniprot_id": uniprot_id,
+        "protein_name": name,
+        "gene_name": gene,
+        "synonyms": synonyms
+    }
